@@ -7,6 +7,9 @@ Group:		Text tools
 Url:		https://github.com/pvanek/qlipper
 Source0:	https://github.com/pvanek/qlipper/archive/%{version}.tar.gz
 BuildRequires:	cmake cmake(ECM) ninja
+BuildRequires:	cmake(Qt5Core)
+BuildRequires:	cmake(Qt5Gui)
+BuildRequires:	cmake(Qt5Widgets)
 BuildRequires:	imagemagick
 
 %description
