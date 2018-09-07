@@ -1,38 +1,27 @@
 Summary:	Lightweight clipboard history
 Name:		qlipper
-Version:	2.0.1
-Release:	9
+Version:	5.1.1
+Release:	1
 License:	GPLv2
 Group:		Text tools
-Url:		http://code.google.com/p/qlipper
-Source0:	http://qlipper.googlecode.com/files/%{name}-%{version}.tar.bz2
-Source1:	FindQxt.cmake
-Source2:	FindQtSingleApplication.cmake
-Patch0:		%{name}-2.0.1-qxt_qtsa.patch
-BuildRequires:	cmake
+Url:		https://github.com/pvanek/qlipper
+Source0:	https://github.com/pvanek/qlipper/archive/%{version}.tar.gz
+BuildRequires:	cmake cmake(ECM) ninja
 BuildRequires:	imagemagick
-BuildRequires:	qt4-devel
-BuildRequires:	qt4-linguist
-BuildRequires:	libqxt-devel
-BuildRequires:	qtsingleapplication-devel
 
 %description
 Lightweight and cross-platform clipboard history applet.
 
 %prep
-%setup -q
-mkdir cmake
-cp %{SOURCE1} cmake
-cp %{SOURCE2} cmake
-%patch0 -p0
-rm -rf qxt qtsingleapplication
+%autosetup -p1
+%cmake \
+	-G Ninja
 
 %build
-%cmake_qt4 -DCMAKE_BUILD_TYPE=release -DUSE_SYSTEM_QXT=ON -DUSE_SYSTEM_QTSINGLEAPPLICATION=ON
-%make
+%ninja_build -C build
 
 %install
-%makeinstall_std -C build
+%ninja_install -C build
 
 install -d -D -m 755 %{buildroot}%{_datadir}/pixmaps
 install -d -D -m 755 %{buildroot}%{_iconsdir}
@@ -47,5 +36,6 @@ desktop-file-validate %{buildroot}%{_datadir}/applications/%{name}.desktop
 %{_bindir}/%{name}
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/%{name}.*
+%{_iconsdir}/*/*/*/%{name}.*
 %{_datadir}/pixmaps/%{name}.*
-
+%{_datadir}/%{name}
